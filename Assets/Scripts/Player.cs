@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+    private SpawnManager _spawnManager;
 
     private Vector3 _offset = new Vector3(0, 0.8f, 0);
 
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = Vector3.zero;
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
@@ -79,6 +81,7 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
+            _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
     }
