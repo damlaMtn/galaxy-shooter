@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     private SpawnManager _spawnManager;
 
-    private Vector3 _offset = new Vector3(0, 0.8f, 0);
+    private Vector3 _offset = new Vector3(0, 1.05f, 0);
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -24,6 +24,11 @@ public class Player : MonoBehaviour
     {
         transform.position = Vector3.zero;
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manager is null.");
+        }
     }
 
     // Update is called once per frame
