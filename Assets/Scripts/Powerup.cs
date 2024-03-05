@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Powerup : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 4.0f;
+    private float _speed = 3.0f;
 
+    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        if (transform.position.y < -5f)
+        if (transform.position.y < -4.5f)
         {
-            float randomX = Random.Range(-8f, 8f);
-            transform.position = new Vector3(randomX, 7f, 0);
+            Destroy(this.gameObject);
         }
     }
 
@@ -23,18 +23,11 @@ public class Enemy : MonoBehaviour
         if (collision.tag == "Player")
         {
             Player player = collision.transform.GetComponent<Player>();
-            
             if (player != null)
             {
-                player.Damage();
+                player.TripleShotActive();
             }
 
-            Destroy(this.gameObject);
-        }
-
-        if (collision.tag == "Laser")
-        {
-            Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
     }

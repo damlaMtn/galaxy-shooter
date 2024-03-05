@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,6 +19,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField]
+    private GameObject _tripleLaserPrefab;
+
+    private bool _isTripleShotActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -77,7 +82,15 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
         _canFire = Time.time + _fireRate;
-        Instantiate(_laserPrefab, transform.position + _offset, Quaternion.identity);
+
+        if (_isTripleShotActive)
+        {
+            Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(_laserPrefab, transform.position + _offset, Quaternion.identity);
+        }
     }
 
     public void Damage()
@@ -89,5 +102,19 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+
+    public void TripleShotActive()
+    {
+        _isTripleShotActive = true;
+
+        StartCoroutine(TripleShotPowerDownRoutine());
+    }
+
+    IEnumerator TripleShotPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        _isTripleShotActive = false;
     }
 }
