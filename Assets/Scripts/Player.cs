@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+    private int _score = 0;
+
     private SpawnManager _spawnManager;
 
     private Vector3 _offset = new Vector3(0, 1.05f, 0);
@@ -29,16 +31,26 @@ public class Player : MonoBehaviour
     //private bool _isSpeedBoostActive = false;
     private bool _isShieldBoostActive = false;
 
+    private UIManager _uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
         _playerShield.SetActive(false);
         transform.position = Vector3.zero;
+
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
 
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is null.");
+        }
+
+        if(_uiManager == null) 
+        {
+            Debug.LogError("The UI Manager is null.");
         }
     }
 
@@ -107,7 +119,7 @@ public class Player : MonoBehaviour
             _isShieldBoostActive = false;
             _playerShield.SetActive(false);
             return;
-        }            
+        }
 
         _lives--;
 
@@ -154,5 +166,11 @@ public class Player : MonoBehaviour
     {
         _isShieldBoostActive = true;
         _playerShield.SetActive(true);
+    }
+
+    public void AddScore(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
     }
 }
