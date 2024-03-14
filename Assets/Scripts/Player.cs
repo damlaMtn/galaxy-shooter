@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class Player : MonoBehaviour
             Debug.LogError("The Spawn Manager is null.");
         }
 
-        if(_uiManager == null) 
+        if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is null.");
         }
@@ -122,6 +123,8 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+
+        _uiManager.UpdateLives(_lives);
 
         if (_lives < 1)
         {
