@@ -9,9 +9,21 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
 
+    private Animator _anim;
+
     private void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.Log("The player is null");
+        }
+
+        _anim = GetComponent<Animator>();
+        if (_anim == null)
+        {
+            Debug.Log("The animator is null");
+        }
     }
 
     void Update()
@@ -36,19 +48,24 @@ public class Enemy : MonoBehaviour
                 player.Damage();
             }
 
-            Destroy(this.gameObject);
+            _anim.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+            Destroy(this.gameObject, 2.8f);
         }
 
         if (collision.tag == "Laser")
         {
             Destroy(collision.gameObject);
 
-            if(_player != null)
+            if (_player != null)
             {
                 _player.AddScore(10);
-            }            
+            }
 
-            Destroy(this.gameObject);
+            _anim.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+            Destroy(this.gameObject, 2.8f);
         }
+
     }
 }
