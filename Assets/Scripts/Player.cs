@@ -27,6 +27,10 @@ public class Player : MonoBehaviour
     private GameObject _tripleLaserPrefab;
     [SerializeField]
     private GameObject _playerShield;
+    [SerializeField]
+    private GameObject _rightEngine;
+    [SerializeField]
+    private GameObject _leftEngine;
 
     private bool _isTripleShotActive = false;
     //private bool _isSpeedBoostActive = false;
@@ -34,9 +38,11 @@ public class Player : MonoBehaviour
 
     private UIManager _uiManager;
 
-    // Start is called before the first frame update
     void Start()
     {
+        _rightEngine.SetActive(false);
+        _leftEngine.SetActive(false);
+
         _playerShield.SetActive(false);
         transform.position = Vector3.zero;
 
@@ -55,7 +61,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         CalculateMovement();
@@ -123,6 +128,15 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+
+        if (_lives == 2)
+        {
+            _leftEngine.SetActive(true);
+        }
+        else if (_lives == 1)
+        {
+            _rightEngine.SetActive(true);
+        }
 
         _uiManager.UpdateLives(_lives);
 
